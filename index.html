@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KindQuest — Make Every Day a Little Kinder</title>
+  <meta name="description" content="KindQuest helps you build a joyful habit of kindness with daily quests, gentle reminders, a Karma Tree, insights, and achievements." />
+  <link rel="icon" type="image/png" sizes="192x192" href="./1024.png">
+  <link rel="apple-touch-icon" href="./1024.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0c111d;
+      --panel:#121a2a;
+      --panel-soft:#151f32;
+      --accent:#f2c14f;
+      --accent-2:#6de4c2;
+      --ink:#dbe6ff;
+      --muted:#9bb0ce;
+      --line:#1f2c43;
+      --glow1:rgba(242,193,79,0.14);
+      --glow2:rgba(109,228,194,0.12);
+      --pill:#192338;
+      font-family:"Manrope","Space Grotesk","SF Pro Display",system-ui,-apple-system,sans-serif;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:radial-gradient(circle at 20% 20%,var(--glow1),transparent 32%),radial-gradient(circle at 85% 10%,var(--glow2),transparent 30%),var(--bg);
+      color:var(--ink);
+      line-height:1.7;
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .page{
+      max-width:1120px;
+      margin:0 auto;
+      padding:32px 20px 72px;
+      position:relative;
+      overflow:hidden;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:12px 16px;
+      background:rgba(18,26,42,0.65);
+      border:1px solid var(--line);
+      border-radius:18px;
+      position:sticky;
+      top:12px;
+      backdrop-filter: blur(12px);
+      z-index:10;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      letter-spacing:.01em;
+      color:var(--ink);
+    }
+    .brand img{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      box-shadow:0 12px 36px rgba(0,0,0,0.3),0 0 0 8px rgba(242,193,79,0.08);
+      border:1px solid rgba(255,255,255,0.07);
+    }
+    nav{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      font-size:14px;
+      color:var(--muted);
+    }
+    nav a{padding:8px 10px;border-radius:12px;transition:background .2s,color .2s}
+    nav a:hover{background:var(--panel-soft);color:var(--ink);text-decoration:none}
+    .hero{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:28px;
+      padding:46px 14px 32px;
+      align-items:center;
+    }
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.25em;
+      color:var(--muted);
+      font-size:12px;
+      margin:0 0 12px;
+    }
+    h1{
+      margin:0 0 14px;
+      font-size:38px;
+      line-height:1.15;
+      letter-spacing:-0.02em;
+    }
+    .lede{
+      margin:0 0 22px;
+      color:var(--ink);
+      max-width:640px;
+    }
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:13px 16px;
+      border-radius:14px;
+      font-weight:700;
+      border:1px solid transparent;
+      transition:transform .2s,box-shadow .2s,border .2s;
+    }
+    .btn.primary{
+      background:linear-gradient(120deg,#f6d26c,#f2b74f);
+      color:#140c05;
+      box-shadow:0 10px 30px rgba(242,193,79,0.28);
+    }
+    .btn.secondary{
+      background:var(--pill);
+      border-color:var(--line);
+      color:var(--ink);
+    }
+    .btn:hover{transform:translateY(-2px);text-decoration:none;box-shadow:0 18px 36px rgba(0,0,0,0.25)}
+    .badge{padding:7px 12px;border-radius:20px;background:var(--pill);color:var(--muted);font-size:13px;border:1px solid var(--line)}
+    .logo-card{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px;
+      border-radius:14px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      box-shadow:0 14px 30px rgba(0,0,0,0.28);
+      margin:0 0 10px;
+    }
+    .logo-card img{
+      width:54px;
+      height:54px;
+      border-radius:16px;
+      box-shadow:0 10px 26px rgba(0,0,0,0.25),0 0 0 10px rgba(242,193,79,0.08);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .logo-card .logo-text{font-weight:700;letter-spacing:-0.01em}
+    .logo-card .logo-sub{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+    .hero-visual{
+      background:linear-gradient(160deg,rgba(242,193,79,0.14),rgba(109,228,194,0.12));
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+      min-height:360px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .floating{
+      position:absolute;
+      inset:18px;
+      background:radial-gradient(circle at 20% 20%,rgba(242,193,79,0.2),transparent 30%),radial-gradient(circle at 80% 30%,rgba(109,228,194,0.2),transparent 30%),var(--panel);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:0 25px 60px rgba(0,0,0,0.35);
+      padding:18px;
+      display:grid;
+      align-items:start;
+      grid-template-rows:auto 1fr;
+      gap:12px;
+    }
+    .floating h3{margin:0;font-size:20px;letter-spacing:-0.01em}
+    .floating ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:14px;color:var(--muted)}
+    .floating li{
+      padding:10px 12px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.02);
+      border:1px solid var(--line);
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .chip{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 6px rgba(242,193,79,0.12);
+    }
+    section{
+      margin:24px 0 0;
+      padding:26px 18px 20px;
+      background:rgba(18,26,42,0.65);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.25);
+    }
+    section h2{
+      margin:0 0 10px;
+      font-size:26px;
+      letter-spacing:-0.01em;
+    }
+    section p{margin:0 0 12px;color:var(--muted)}
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:6px 0 10px;
+    }
+    .pill{
+      background:var(--pill);
+      color:var(--ink);
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+    }
+    .grid{
+      display:grid;
+      gap:12px;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      margin-top:14px;
+    }
+    .card{
+      padding:14px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:14px;
+    }
+    .card h3{margin:0 0 6px;font-size:18px}
+    .card p{margin:0;color:var(--muted)}
+    .insights{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:14px;
+      margin-top:14px;
+    }
+    .stat{
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:var(--panel-soft);
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .stat strong{font-size:28px}
+    .calendar{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:6px;
+      margin-top:12px;
+    }
+    .calendar span{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 0;
+      border-radius:12px;
+      background:var(--pill);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .calendar span.active{
+      background:linear-gradient(145deg,rgba(242,193,79,0.2),rgba(109,228,194,0.18));
+      color:var(--ink);
+      font-weight:700;
+      border-color:rgba(242,193,79,0.5);
+    }
+    .footer{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-top:24px;
+      padding-top:12px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:14px;
+    }
+    .download-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      align-items:center;
+      margin-top:10px;
+    }
+    .qr{
+      width:120px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      padding:10px;
+    }
+    .store-badge{
+      height:52px;
+      width:auto;
+      border-radius:12px;
+      border:none;
+      background:transparent;
+      padding:0;
+      box-shadow:0 10px 24px rgba(0,0,0,0.25);
+    }
+    @media (max-width:720px){
+      header{position:static}
+      h1{font-size:32px}
+      .floating{position:relative;inset:auto;min-height:320px}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <img src="./1024.png" alt="KindQuest app icon">
+        <span>KindQuest</span>
+      </div>
+      <nav>
+        <a href="#features">Daily Quests</a>
+        <a href="#experience">Experience</a>
+        <a href="#growth">Growth</a>
+        <a href="#insights">Insights</a>
+        <a href="#download">Download</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Kindness, made effortless</p>
+        <h1 id="hero-title">KindQuest — Make Every Day a Little Kinder</h1>
+        <p class="lede">KindQuest is a simple, beautiful app that turns everyday moments into opportunities for good. Build a joyful habit of kindness with daily quests, gentle reminders, calming design, and insightful tracking.</p>
+        <div class="actions">
+          <a href="#download">
+            <img class="store-badge" src="./Download.png" alt="Download KindQuest on the App Store">
+          </a>
+          <img class="qr" src="./QrKindQuestApp.png" alt="QR code to download KindQuest">
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="floating">
+          <h3>Today&apos;s quests</h3>
+          <ul>
+            <li><span class="chip"></span>Send a warm message to someone you care about</li>
+            <li><span class="chip" style="background:var(--accent-2);box-shadow:0 0 0 6px rgba(109,228,194,0.12);"></span>Take a quiet break to breathe and reset</li>
+            <li><span class="chip"></span>Offer genuine appreciation to a teammate</li>
+            <li><span class="chip"></span>Brighten a stranger&apos;s day</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" aria-labelledby="features-title">
+      <h2 id="features-title">Daily quests that inspire you</h2>
+      <p>Every day, KindQuest offers a new quest designed to uplift you or someone around you. Each action is quick, achievable, and surprisingly powerful.</p>
+      <div class="pill-row">
+        <span class="pill">Mindfulness & calm</span>
+        <span class="pill">Connection & gratitude</span>
+        <span class="pill">Support & encouragement</span>
+        <span class="pill">Self-kindness</span>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <h3>Simple prompts</h3>
+          <p>Compliments, thoughtful messages, tiny acts of help, and stress-reducing moments you can do in minutes.</p>
+        </div>
+        <div class="card">
+          <h3>Built for consistency</h3>
+          <p>Small wins add up. KindQuest makes it easy to show up daily and keep your streak alive.</p>
+        </div>
+        <div class="card">
+          <h3>Warm encouragement</h3>
+          <p>Gentle tone, no pressure. You choose your pace while KindQuest celebrates every step.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" aria-labelledby="experience-title">
+      <h2 id="experience-title">A beautiful experience that motivates</h2>
+      <p>Designed with a soft, welcoming aesthetic that keeps you calm and focused. Every screen feels like a quiet space to do something kind.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Calming visuals</h3>
+          <p>Soft gradients, warm highlights, and a friendly interface that invites you back.</p>
+        </div>
+        <div class="card">
+          <h3>Gentle reminders</h3>
+          <p>Opt into nudges that fit your schedule. Set quiet hours whenever you need space.</p>
+        </div>
+        <div class="card">
+          <h3>Aligned with your life</h3>
+          <p>Choose the time that works best, pause when you need, and resume without losing momentum.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="growth" aria-labelledby="growth-title">
+      <h2 id="growth-title">Grow your Karma Tree</h2>
+      <p>Each completed quest nourishes your personal Karma Tree—a living symbol of your consistency and care.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>See progress flourish</h3>
+          <p>Watch your tree flourish as you keep showing up. Every branch reminds you of your impact.</p>
+        </div>
+        <div class="card">
+          <h3>Earn achievements</h3>
+          <p>Unlock beautifully designed badges, celebrate streaks, and keep your motivation high.</p>
+        </div>
+        <div class="card">
+          <h3>Celebrate milestones</h3>
+          <p>Track daily wins, monthly progress, and feel proud of the kindness you nurture.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="insights" aria-labelledby="insights-title">
+      <h2 id="insights-title">Insights that help you grow</h2>
+      <p>Your actions matter—KindQuest shows you how. Visual insights reveal patterns in your completed quests so you can see the bigger picture of your kindness habit.</p>
+      <div class="insights">
+        <div class="stat">
+          <div class="chip"></div>
+          <div>
+            <strong>Difficulty & pace</strong>
+            <p>Balance easy wins with meaningful stretches that suit your energy.</p>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="chip" style="background:var(--accent-2);box-shadow:0 0 0 6px rgba(109,228,194,0.12);"></div>
+          <div>
+            <strong>Categories</strong>
+            <p>See which areas you nurture most—relationships, gratitude, calm, or self-care.</p>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="chip"></div>
+          <div>
+            <strong>Frequency & streaks</strong>
+            <p>Stay inspired by your streak, monthly growth, and the positive ripple you create.</p>
+          </div>
+        </div>
+      </div>
+      <div class="calendar" aria-label="Calendar preview">
+        <span class="active">1</span><span>2</span><span class="active">3</span><span>4</span><span class="active">5</span><span>6</span><span class="active">7</span>
+        <span class="active">8</span><span>9</span><span class="active">10</span><span>11</span><span>12</span><span class="active">13</span><span>14</span>
+        <span class="active">15</span><span>16</span><span>17</span><span class="active">18</span><span>19</span><span class="active">20</span><span>21</span>
+        <span class="active">22</span><span>23</span><span>24</span><span class="active">25</span><span>26</span><span class="active">27</span><span>28</span>
+        <span class="active">29</span><span class="active">30</span><span class="active">31</span><span class="active">1</span><span class="active">2</span><span>3</span><span class="active">4</span>
+      </div>
+    </section>
+
+    <section id="everyone" aria-labelledby="everyone-title">
+      <h2 id="everyone-title">KindQuest is for everyone</h2>
+      <p>Whether you focus on gratitude, relationships, emotional well-being, or personal growth, KindQuest makes it effortless to start small and feel good.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Personal growth</h3>
+          <p>Build a positive mindset one micro-action at a time.</p>
+        </div>
+        <div class="card">
+          <h3>Connection</h3>
+          <p>Reconnect with friends, family, teammates, and community.</p>
+        </div>
+        <div class="card">
+          <h3>Emotional well-being</h3>
+          <p>Reduce stress, feel grounded, and create joyful moments that last.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="kindness" aria-labelledby="kindness-title">
+      <h2 id="kindness-title">Why kindness matters</h2>
+      <p>Small acts of kindness boost mood, reduce stress, increase connection, and improve happiness. KindQuest brings these benefits to everyday life in a fun, structured way.</p>
+      <div class="pill-row">
+        <span class="pill">Better mood</span>
+        <span class="pill">Lower stress</span>
+        <span class="pill">Deeper connection</span>
+        <span class="pill">More gratitude</span>
+      </div>
+    </section>
+
+    <section id="download" aria-labelledby="download-title">
+      <h2 id="download-title">Start your kindness journey today</h2>
+      <p>Make every day a little brighter—for yourself and others. Download KindQuest and let your kindness grow, one small quest at a time.</p>
+      <div class="download-row">
+        <img class="store-badge" src="./Download.png" alt="Download KindQuest">
+        <img class="qr" src="./QrKindQuestApp.png" alt="QR code to download KindQuest">
+      </div>
+    </section>
+
+    <div class="footer">
+      <span>© <span id="y"></span> KindQuest</span>
+      <div class="actions" style="gap:8px;">
+        <a class="btn secondary" style="padding:10px 12px;" href="./privacy.html">Privacy</a>
+        <a class="btn secondary" style="padding:10px 12px;" href="mailto:edwarmartinez@yahoo.com">Support</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
